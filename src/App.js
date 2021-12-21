@@ -12,7 +12,7 @@ import LoginContainer from "./Components/Login/LoginContainer";
 import {connect} from "react-redux";
 import {compose} from "redux";
 import {initializeAppThunkCreator} from "./Components/Redux/app-reducer";
-import preloader from "./assets/images/6.gif";
+import preloader from "./assets/images/spinning-circles.svg";
 import pic404 from "./assets/images/page-not-found.png";
 
 const DialogsContainer = React.lazy(() => import('./Components/Dialogs/DialogsContainer'));
@@ -38,7 +38,7 @@ class App extends React.Component {
     render() {
 
         if (!this.props.initialized) {
-            return <img src={preloader} />
+            return <img className='preloader' src={preloader} />
         }
 
         return (
@@ -49,6 +49,7 @@ class App extends React.Component {
                     {/*switch осуществляет сравнение сверху-вниз к более точному совпадению*/}
                     <Switch>
                         <Route exact path='/' render={() => <Redirect to={'/profile'} /> }/>
+                        {/* :userId? - params для withRouter */}
                         <Route path='/profile/:userId?' render={() => <ProfileContainer/>}/>
 
                         <Route path='/dialogs' render={() =>

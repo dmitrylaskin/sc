@@ -1,5 +1,4 @@
 .description {
-    padding: 10px;
 }
 .item img {
     max-height: 500px;
@@ -7,6 +6,7 @@
 }
 .mainPhoto {
     max-width: 200px;
+    border-radius: 5px;
 }
 .contacts {
     padding-left: 15px;

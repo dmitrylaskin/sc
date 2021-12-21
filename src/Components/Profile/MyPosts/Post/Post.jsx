@@ -12,13 +12,26 @@ const Post = (props) => {
 
 
                 {/*если нет фото, отображается пустота, нужно дописать условие*/}
-                <img src={props.profile.photos.small || userPhoto} alt=""/>
+                <div className={classes.userInfo}>
+                    <img src={props.profile.photos.small || userPhoto} alt=""/>
 
-                <b>{props.profile.fullName}</b><br/>
+                    <div className={classes.username}>
+                        {props.profile.fullName}
+                    </div>
+                    <div><span className={classes.time}>{new Date().toLocaleTimeString()}</span><span className={classes.time}>{new Date().toLocaleDateString()}</span></div>
+
+                </div>
+
 
                 <div className={classes.textMessage}>{props.message}</div>
 
-                <div className={classes.like}><img src={likePic}/>{props.likes}</div>
+                <div className={classes.like}>
+                    <img src={likePic}/>
+                    <div className={classes.likesCount}>
+                        {props.likes}
+                    </div>
+
+                </div>
 
             </div>
 

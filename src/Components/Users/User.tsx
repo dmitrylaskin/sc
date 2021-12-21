@@ -13,8 +13,6 @@ type propsType = {
 }
 
 const User: React.FC<propsType> = (props) => {
-    debugger
-
 
     return (<div className={classes.userIcons} key={props.user.id}>
 

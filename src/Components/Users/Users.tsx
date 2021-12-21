@@ -19,10 +19,7 @@ type propsType = {
 const Users: React.FC<propsType> = (props) => {
 
 
-    return <div>
-
-        <Paginator totalItemsCount={props.totalUsersCount} pageSize={props.pageSize} currentPage={props.currentPage} onPageChanged={props.onPageChanged}/>
-
+    return <>
         <div className={classes.usersIcons}>
         {props.users.map((u) => <User followThunk={props.followThunk}
                                       unfollowThunk={props.unfollowThunk}
@@ -31,6 +28,7 @@ const Users: React.FC<propsType> = (props) => {
                                       user={u} key={u.id}/>)
         }
         </div>
-    </div>
+        <Paginator totalItemsCount={props.totalUsersCount} pageSize={props.pageSize} currentPage={props.currentPage} onPageChanged={props.onPageChanged}/>
+    </>
 };
 export default Users

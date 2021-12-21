@@ -6,6 +6,7 @@
 .pnp.js
 store.js
 ProfileStatus.jsx
+.idea
 
 # testing
 /coverage

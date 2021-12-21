@@ -6,7 +6,7 @@ import {
     toggleFollowingProgress, toggleIsFetching, unfollowThunk
 } from "../Redux/user-reducer";
 import Users from "./Users";
-import preloader from '../../assets/images/6.gif'
+import preloader from '../../assets/images/spinning-circles.svg'
 import {withAuthRedirect} from "../Hoc/withAuthRedirect";
 import {compose} from "redux";
 import {
