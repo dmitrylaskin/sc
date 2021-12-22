@@ -1,19 +1,16 @@
 import React from "react";
 import {connect} from "react-redux";
-import {
-    followThunk, getUsersThunkCreator, getUsersThunkCreatorPageChanged,
-    setCurrentPage, setTotalUsersCount, setUsers,
-    toggleFollowingProgress, toggleIsFetching, unfollowThunk
-} from "../Redux/user-reducer";
+import {followThunk, getUsersThunkCreator, getUsersThunkCreatorPageChanged, unfollowThunk} from "../Redux/user-reducer";
 import Users from "./Users";
 import preloader from '../../assets/images/spinning-circles.svg'
-import {withAuthRedirect} from "../Hoc/withAuthRedirect";
 import {compose} from "redux";
 import {
-    getCurrentPageSelector, getFollowingInProgressSelector, getIsFetchingSelector,
+    getCurrentPageSelector,
+    getFollowingInProgressSelector,
+    getIsFetchingSelector,
     getPageSizeSelector,
     getTotalUsersCountSelector,
-    getUsersSelector, getUsersSelectorSuper
+    getUsersSelectorSuper
 } from "../Redux/user-selectors";
 import classes from './Users.module.css'
 import {userType} from "../../Types/types";

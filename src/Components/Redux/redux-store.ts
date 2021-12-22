@@ -24,12 +24,11 @@ type rootReducerType = typeof rootReducer
 export type appStateType = ReturnType<rootReducerType>
 
 
-// 1.chrome extensions:
+// chrome extensions:
 // @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunkMiddleware)));
 
-//2.original:
 //const store = createStore(benchOfReducers, applyMiddleware(thunkMiddleware));
 
 export default store
