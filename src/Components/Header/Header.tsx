@@ -3,7 +3,7 @@ import classes from './Header.module.css'
 import {NavLink} from "react-router-dom";
 import reactIcon from '../../assets/images/react-js.svg'
 
-const Header: React.FC<propsType> = (props) => {
+const Header: React.FC<propsHeaderType> = (props) => {
     return (
         <header className={classes.header}>
             <img
@@ -19,8 +19,8 @@ const Header: React.FC<propsType> = (props) => {
     )
 }
 
-type propsType = {
-    login: string
+export type propsHeaderType = {
+    login: string | null
     isAuth: boolean
     getLogoutThunkCreator: () => void
 }
