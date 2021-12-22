@@ -4,9 +4,9 @@ import {connect} from "react-redux";
 import {withAuthRedirect} from "../Hoc/withAuthRedirect";
 import {compose} from "redux";
 import {reset} from 'redux-form';
+import {appStateType} from "../Redux/redux-store";
 
-
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: appStateType) => {
     return {
         MessagesPage: state.MessagesPage,
 

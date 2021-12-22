@@ -6,9 +6,10 @@ import {Field, reduxForm} from "redux-form";
 import {Textarea} from "../common/FormControls/FormControls";
 import {maxLengthCreator, required} from "../../utilites/validators/validators";
 import {addMessage} from "../Redux/message-reducer";
+import {dialogsPropsType} from "../../Types/dialogs";
 
 
-const Dialogs = (props: propsType) => {
+const Dialogs = (props: dialogsPropsType) => {
     let DialogObj = props.MessagesPage.DialogsData.map((key) => <DialogItem key={key.id} name={key.name} id={key.id}/>);
     let MesObj = props.MessagesPage.MessagesData.map((key) => <Message key={key.id} text={key.text}/>);
 
@@ -55,15 +56,7 @@ const AddMessageForm = (props: any) => {
     )
 }
 
-type propsType = {
-    MessagesPage: {
-        MessagesData: [{id: number, text: string}]
-        DialogsData: [{id: number, name: string}]
-        isAuth: boolean
-    }
-    addMessage: (newMessageText: string) => void
-    reset: (text: string) => void
-}
+
 
 const AddMessageReduxForm = reduxForm({form: 'addMessage'})(AddMessageForm)
 
