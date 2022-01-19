@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "./Header";
-import {getAuthUserDataThunkCreator, getLogoutThunkCreator, setAuthUserData} from '../Redux/auth-reducer'
+import {getAuthUserDataThunkCreator, getLogoutThunkCreator} from '../Redux/auth-reducer'
 import {connect} from "react-redux";
 import {appStateType} from "../Redux/redux-store";
 
@@ -8,9 +8,7 @@ type mapStateToPropsType = {
     login: string | null
     isAuth: boolean
 }
-
 type mapDispatchToProps = {
-    setAuthUserData: any
     getAuthUserDataThunkCreator: () => void
     getLogoutThunkCreator: () => void
 }
@@ -32,4 +30,4 @@ const mapStateToProps = (state: appStateType): mapStateToPropsType => {
         isAuth: state.auth.isAuth
     }
 };
-export default connect<mapStateToPropsType, mapDispatchToProps, ownPropsType, appStateType>(mapStateToProps, {setAuthUserData, getAuthUserDataThunkCreator, getLogoutThunkCreator}) (HeaderContainer)
+export default connect<mapStateToPropsType, mapDispatchToProps, ownPropsType, appStateType>(mapStateToProps, { getAuthUserDataThunkCreator, getLogoutThunkCreator}) (HeaderContainer)

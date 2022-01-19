@@ -7,9 +7,7 @@ type propsType = {
     currentPage: number
     pageSize: number
     onPageChanged: (p: number) => void
-
 }
-
 
 const Paginator: React.FC<propsType> = (props) => {
     let portionSize = 10;

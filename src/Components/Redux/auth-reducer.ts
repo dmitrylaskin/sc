@@ -1,4 +1,4 @@
-import {authAPI, securityAPI} from "../../api/api";
+import {authAPI, resultCodeEnum, securityAPI} from "../../api/api";
 import {stopSubmit} from "redux-form";
 import {appStateType} from "./redux-store";
 import {ThunkAction} from "redux-thunk";
@@ -62,24 +62,24 @@ type thunksType = ThunkAction<Promise<void>, appStateType, unknown, actionsTypes
 export const getAuthUserDataThunkCreator = (): thunksType =>
     async (dispatch) => {
         //второй return возвращает вызов thunkcreator'а наоружу
-        let response = await  authAPI.getAuthUserData()
+        let response = await authAPI.getAuthUserData()
 
-                if (response.data.resultCode === 0) {
+                if (response.data.resultCode === resultCodeEnum.success) {
                     let {id, login, email} = response.data.data;
                     dispatch(setAuthUserData(id, login, email, true))
                 }
     }
 
-export const getLoginThunkCreator = (email: string, password: number, rememberMe: boolean, captcha: string): thunksType =>
+export const getLoginThunkCreator = (email: string, password: string, rememberMe: boolean, captcha: string): thunksType =>
 
     async (dispatch: any) => {
 
         let response = await authAPI.getLogin(email, password, rememberMe, captcha)
 
-                if (response.data.resultCode === 0) {
+        if (response.data.resultCode === resultCodeEnum.success) {
                     dispatch(getAuthUserDataThunkCreator())
                 } else {
-                    if (response.data.resultCode === 10) {
+                    if (response.data.resultCode === resultCodeEnum.captchaIsRequired) {
                         dispatch(getCaptchaUrlThunkCreator())
                     }
                     let message = response.data.messages.length > 0 ? response.data.messages[0] : "unknown error"

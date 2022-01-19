@@ -1,8 +1,16 @@
-import React from "react";
+import React, {ChangeEvent} from "react";
 import classes from './ProfileStatus.module.css'
 
+type PropsType = {
+    status: string
+    updateUserStatusThunkCreator: (status: string) => void
+}
+type StateType = {
+
+}
+
 // переделано на хуки!!!
-class ProfileStatus extends React.Component {
+class ProfileStatus extends React.Component<PropsType, StateType> {
 
     state = {
         editMode: false,
@@ -21,16 +29,14 @@ class ProfileStatus extends React.Component {
         });
         this.props.updateUserStatusThunkCreator(this.state.status)
     }
-    onStatusChange = (event) => {
+    onStatusChange = (event: ChangeEvent<HTMLInputElement>) => {
         this.setState({
             status: event.currentTarget.value
         })
-
-
     }
 // за счет вызова метода componentDidUpdate сетаем status из пришедших пропсов в local state сразу!
 // таким образом local state всегда соответствует state пришедшвему из пропсов
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps: PropsType, prevState: StateType) {
 
         if (prevProps.status !== this.props.status) {
             this.setState({

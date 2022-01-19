@@ -4,9 +4,16 @@ import preloader from '../../../assets/images/spinning-circles.svg'
 import ProfileStatusWithHooks from "../ProfileStatus/ProfileStatusWithHooks";
 import userPhoto from "../../../assets/images/user-icon.png"
 import ProfileDataForm from "./ProfileDataForm";
+import {profileType} from "../../../Types/types";
 
+type propsType = {
+    isOwner: boolean
+    profile: profileType
+    status: string
+    saveProfile: (arg: any) => void
+}
 
-const ProfileInfo = (props) => {
+const ProfileInfo: React.FC<propsType> = (props) => {
 
     let [editMode, setEditMode] = useState(false)
 
@@ -14,14 +21,15 @@ const ProfileInfo = (props) => {
         return <img src={preloader}/>
         // return <preloader/>
     }
-    const onMainPhotoSelected = (event) => {
+    const onMainPhotoSelected = (event: any) => {
         if (event.target.files.length) {
             props.saveProfile(event.target.files[0])
         }
     }
 
-    const onSubmit = (formData) => {
+    const onSubmit = (formData: any) => {
         props.saveProfile(formData)
+            //@ts-ignore
             .then(() => {
                 setEditMode(false)
             })
@@ -39,6 +47,7 @@ const ProfileInfo = (props) => {
                     <input type={"file"} onChange={onMainPhotoSelected}/>}
                 </div>
 
+                {/*@ts-ignore*/}
                 <b>Status:</b> <ProfileStatusWithHooks isOwner={props.isOwner} status={props.status} updateUserStatusThunkCreator={props.updateUserStatusThunkCreator}/>
 
                 {editMode ? <ProfileDataForm initialValues={props.profile} onSubmit={onSubmit} {...props}/> : <ProfileData {...props} goEditMode={()=> {setEditMode(true)}} isOwner={props.isOwner}/>}
@@ -49,11 +58,11 @@ const ProfileInfo = (props) => {
     )
 }
 
-let Contact = ({contactKey, contactValue}) => {
+let Contact = ({contactKey, contactValue}: any) => {
     return <div className={classes.contacts}><b>{contactKey}</b>: {contactValue}</div>
 
 }
-let ProfileData = (props) => {
+let ProfileData = (props: any) => {
     return (<div>
         {props.isOwner && <div><button className={classes.button} onClick={props.goEditMode}>edit</button></div>}
 

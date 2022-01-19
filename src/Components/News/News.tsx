@@ -1,8 +1,11 @@
 import React from "react";
-import classes from './News.module.css'
 import {withAuthRedirect} from "../Hoc/withAuthRedirect";
 
-const News = (props) => {
+type propsType = {
+    isAuth: boolean
+}
+
+const News: React.FC<propsType> = (props): any => {
     if (!props.isAuth) {return }
     return (
         <div>

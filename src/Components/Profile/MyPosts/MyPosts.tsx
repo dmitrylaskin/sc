@@ -4,13 +4,17 @@ import Post from "./Post/Post";
 import {Field, reduxForm} from "redux-form";
 import {maxLengthCreator, required} from "../../../utilites/validators/validators";
 import {Textarea} from "../../common/FormControls/FormControls";
+import {postType, profileType} from "../../../Types/types";
 
+type propsType = {
+    PostsData: Array<postType>
+    addPost: (formData: any) => void
+    newPostText: string
+    profile: profileType
+    reset: (formName: string) => void
+}
 
-
-
-
-
-const MyPosts = (props) => {
+const MyPosts: React.FC<propsType> = (props): any => {
 
     if(!props.profile) {
         return 'Loading...'
@@ -21,7 +25,7 @@ const MyPosts = (props) => {
 
 
     //набранный текст хранится в стейте redux-form
-    let addNewPost = (formData) => {
+    let addNewPost = (formData: any) => {
         props.addPost(formData.newPostText)
         props.reset('AddPostForm')
 
@@ -45,7 +49,7 @@ const MyPosts = (props) => {
 
 let maxLength = maxLengthCreator(50)
 
-const AddPostForm = (props) => {
+const AddPostForm = (props: any) => {
     return (<div>
 
             <form className={classes.box} onSubmit={props.handleSubmit}>

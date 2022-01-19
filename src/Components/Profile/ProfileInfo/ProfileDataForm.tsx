@@ -5,7 +5,7 @@ import {Field, reduxForm} from "redux-form";
 import classes from "./ProfileInfo.module.css"
 
 
-let ProfileDataForm = (props) => {
+let ProfileDataForm = (props: any) => {
     return (<form onSubmit={props.handleSubmit}>
         {<div><button className={classes.button}>save</button></div>}
 

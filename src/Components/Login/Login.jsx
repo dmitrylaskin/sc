@@ -2,14 +2,13 @@ import React from "react";
 import {Field, reduxForm} from "redux-form";
 import {required} from "../../utilites/validators/validators";
 import {Input} from "../common/FormControls/FormControls";
-import {getLoginThunkCreator} from "../Redux/auth-reducer";
 import {Redirect} from "react-router-dom";
 import classes from "./../common/FormControls/FormControls.module.css"
 
 const LoginForm = (props) => {
 
 //все наши данные упаковываются в obj formData
-    //внутри handleSubmit вызывается onSubmit() и в него передается formData
+// внутри handleSubmit вызывается onSubmit() и в него передается formData
     return <div className={classes.loginForm}>
 
         <form className={classes.formInputs} onSubmit={props.handleSubmit}>
