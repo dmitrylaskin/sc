@@ -93,7 +93,7 @@ export const getLoginThunkCreator = (email: string, password: string, rememberMe
 export const getLogoutThunkCreator = (): thunksType =>
     async (dispatch) => {
         let response = await authAPI.getLoginout()
-            // .then(response => {
+        // .then(response => {
                 if (response.data.resultCode === 0) {
                     dispatch(setAuthUserData(null, null, null, false))
                 }

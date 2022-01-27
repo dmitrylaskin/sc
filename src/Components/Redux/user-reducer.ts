@@ -11,8 +11,6 @@ const TOTAL_USERS_COUNT = 'users/TOTAL-USERS-COUNT';
 const TOGGLE_IS_FETCHING = 'users/TOGGLE-IS-FETCHING ';
 const TOGGLE_IS_FOLLOWING_PROGRESS = 'users/TOGGLE-IS-FOLLOWING-PROGRESS'
 
-
-
 let initialState = {
     users: [] as Array<userType>,
     pageSize: 5,
@@ -22,7 +20,6 @@ let initialState = {
     followingInProgress: [] as Array<number>,
 };
 type initialStateType = typeof initialState
-
 
 let usersReducer = (state = initialState, action: actionsTypes): initialStateType => {
 
@@ -134,7 +131,7 @@ export const getUsersThunkCreator = (currentPage: number, pageSize: number):thun
 
         let data = await usersAPI.getUsers(currentPage, pageSize)
 
-                dispatch(toggleIsFetching(false))
+        dispatch(toggleIsFetching(false))
                 dispatch(setUsers(data.items))
                 dispatch(setTotalUsersCount(data.totalCount))
 
@@ -175,7 +172,7 @@ export const followThunk = (userId: number): thunksType =>
        dispatch( toggleFollowingProgress(true, userId))
         let response = await usersAPI.getUnfollow(userId)
 
-                if (response.data.resultCode === 0) {
+        if (response.data.resultCode === 0) {
                     dispatch(follow(userId))
                 }
                dispatch( toggleFollowingProgress(false, userId))

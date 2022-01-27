@@ -1,5 +1,5 @@
 import axios from "axios";
-import {profileType} from "../Types/types";
+import {profileType, userType} from "../Types/types";
 
 const instance = axios.create({
     baseURL: `https://social-network.samuraijs.com/api/1.0/`,
@@ -10,30 +10,30 @@ const instance = axios.create({
 //метод instance.get возвращает промис
 export const usersAPI = {
     getUsers(currentPage = 1, pageSize = 10) {
-        return instance.get(`users?page=${currentPage}&count=${pageSize}`, {})
+        return instance.get<userTypeGet>(`users?page=${currentPage}&count=${pageSize}`, {})
             .then(response => {
                 return response.data
             })
     },
     getFollow(id = 2) {
-        return instance.delete(`follow/${id}`, {
+        return instance.delete<defaultResponseType>(`follow/${id}`, {
         })
     },
     getUnfollow(id = 2) {
-        return instance.post(`follow/${id}`, {}, {
+        return instance.post<defaultResponseType>(`follow/${id}`, {}, {
       })
     }
 };
 
 export const profileAPI = {
     getUserProfile(userId: number) {
-        return instance.get(`profile/${userId}`)
+        return instance.get<profileType>(`profile/${userId}`)
     },
     getStatus(userId: number) {
-        return instance.get(`profile/status/${userId}`)
+        return instance.get<string>(`profile/status/${userId}`)
     },
     getUpdateStatus(status: string) {
-        return instance.put(`profile/status`, {status: status})
+        return instance.put<defaultResponseType>(`profile/status`, {status: status})
     },
     getPhoto(file: any) {
         const formData = new FormData();
@@ -45,7 +45,7 @@ export const profileAPI = {
         })
     },
     saveProfile(profile: profileType) {
-        return instance.put(`profile`, profile)
+        return instance.put<defaultResponseType>(`profile`, profile)
     }
 };
 
@@ -57,14 +57,13 @@ export const authAPI = {
         return instance.post<getLoginType>(`auth/login`, {email, password, rememberMe, captcha})
     },
     getLoginout() {
-        return instance.delete(`auth/login` )
+        return instance.delete<defaultResponseType>(`auth/login` )
     }
 };
 
 export const securityAPI = {
     getCaptchaUrl() {
-
-        return instance.get(`security/get-captcha-url`)
+        return instance.get<getLoginOutType>(`security/get-captcha-url`)
     }
 }
 
@@ -87,6 +86,23 @@ type getLoginType = {
     messages: Array<any>,
     fieldsErrors: Array<any>,
     resultCode: resultCodeEnum
+}
+
+type getLoginOutType = {
+    url: string
+}
+
+type defaultResponseType = {
+    data: object,
+    messages: Array<any>,
+    fieldsErrors: Array<any>,
+    resultCode: resultCodeEnum
+}
+
+type userTypeGet = {
+    error: any
+    items: Array<userType>
+    totalCount: number
 }
 
 export enum resultCodeEnum {
