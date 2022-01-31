@@ -23,6 +23,10 @@ let rootReducer = combineReducers({
 type rootReducerType = typeof rootReducer
 export type appStateType = ReturnType<rootReducerType>
 
+// T - объект экшенов, U - ф-я, которую возвращает метод
+type PropertiesType<T> = T extends {[key: string]: infer U} ? U : never
+// Выделение типов экшенов
+export type InferActionsType<T extends {[key: string]: (...args: any[]) => any}> = ReturnType<PropertiesType<T>>
 
 // chrome extensions:
 // @ts-ignore

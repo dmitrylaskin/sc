@@ -11,5 +11,15 @@ const mapStateToProps = (state: appStateType) => {
         captchaUrl: state.auth.captchaUrl
     }
 }
+type mapStateType = {
+    isAuth: boolean
+    captchaUrl: string | null
+}
 
-export default connect(mapStateToProps, {getLoginThunkCreator, getLogoutThunkCreator})(Login)
+type mapDispatchType = {
+    getLoginThunkCreator: (email: string, password: string, rememberMe: boolean, captcha: string) => void
+    getLogoutThunkCreator: () => void
+}
+type ownProps = {}
+
+export default connect<mapStateType, mapDispatchType, ownProps, appStateType>(mapStateToProps, {getLoginThunkCreator, getLogoutThunkCreator})(Login)

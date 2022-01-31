@@ -1,12 +1,11 @@
 import React from "react";
-import {Field, reduxForm} from "redux-form";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {required} from "../../utilites/validators/validators";
 import {Input} from "../common/FormControls/FormControls";
 import {Redirect} from "react-router-dom";
 import classes from "./../common/FormControls/FormControls.module.css"
 
-const LoginForm = (props) => {
-
+const LoginForm: React.FC<InjectedFormProps<formDataType, ownPropTypes> & ownPropTypes> = (props) => {
 //все наши данные упаковываются в obj formData
 // внутри handleSubmit вызывается onSubmit() и в него передается formData
     return <div className={classes.loginForm}>
@@ -38,16 +37,11 @@ const LoginForm = (props) => {
     </div>
 };
 
+const LoginReduxForm = reduxForm<formDataType, ownPropTypes>({form: 'login'})(LoginForm)
 
-const LoginReduxForm = reduxForm({form: 'login'})(LoginForm)
+const Login: React.FC<loginPropTypes> = (props) => {
 
-
-
-const Login = (props) => {
-
-
-
-    const onSubmit = (formData) => {
+    const onSubmit = (formData: formDataType) => {
         props.getLoginThunkCreator(formData.email, formData.password, formData.rememberMe, formData.captcha)
     }
     if (props.isAuth) {
@@ -58,3 +52,20 @@ const Login = (props) => {
 };
 
 export default Login;
+
+// types:
+type ownPropTypes = {
+    captchaUrl: string | null
+}
+
+type loginPropTypes = {
+    getLoginThunkCreator: (email: string, password: string, rememberMe: boolean, captcha: string) => void
+    isAuth: boolean
+    captchaUrl: string | null
+}
+type formDataType = {
+    captcha: string
+    rememberMe: boolean
+    password: string
+    email: string
+}
