@@ -1,5 +1,5 @@
 import React from "react";
-import {addPost} from "../../Redux/profile-reducer"
+import {actions} from "../../Redux/profile-reducer"
 import MyPosts from "./MyPosts";
 import {connect} from "react-redux";
 import {reset} from 'redux-form';
@@ -23,6 +23,6 @@ const mapStateToProps = (state: appStateType) => {
     }
 };
 //@ts-ignore
-let MyPostsContainer = connect<mapStateType, mapDispatchType, ownPropsType, appStateType>(mapStateToProps, {addPost, reset})(MyPosts);
+let MyPostsContainer = connect<mapStateType, mapDispatchType, ownPropsType, appStateType>(mapStateToProps, {addPost: actions.addPost, reset})(MyPosts);
 
 export default MyPostsContainer

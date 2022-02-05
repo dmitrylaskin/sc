@@ -1,3 +1,4 @@
+import { InferActionsType } from './redux-store';
 let SEND_MESSAGE = 'dialogs/SEND-MESSAGE';
 
 type message = {id: number, text: string}
@@ -36,10 +37,12 @@ const messageReducer = (state = initialState, action: actionsTypes):initialState
     } else return state
 };
 
-type actionsTypes = addMessageType
+export const actions = {
+    addMessage: (newMessageText: string) => ({type: SEND_MESSAGE, body: newMessageText})
+}
+// types:
+type actionsTypes = InferActionsType<typeof actions>
 
-type addMessageType = {type: typeof SEND_MESSAGE, body: string}
-export const addMessage = (newMessageText: string): addMessageType => ({type: SEND_MESSAGE, body: newMessageText});
 
 export default messageReducer
 

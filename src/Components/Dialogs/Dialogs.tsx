@@ -5,7 +5,6 @@ import Message from "./Message/Message";
 import {Field, reduxForm} from "redux-form";
 import {Textarea} from "../common/FormControls/FormControls";
 import {maxLengthCreator, required} from "../../utilites/validators/validators";
-import {addMessage} from "../Redux/message-reducer";
 import {dialogsPropsType} from "../../Types/dialogs";
 
 

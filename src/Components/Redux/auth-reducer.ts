@@ -1,11 +1,12 @@
-import {authAPI, resultCodeEnum, securityAPI} from "../../api/api";
+import {resultCodeEnum} from "../../api/api";
+import { securityAPI } from "../../api/securityAPI";
+import { authAPI } from "../../api/authAPI";
 import {stopSubmit} from "redux-form";
-import {appStateType} from "./redux-store";
+import {appStateType, InferActionsType} from "./redux-store";
 import {ThunkAction} from "redux-thunk";
 
 const SET_USER_DATA = 'auth/SET-USER-DATA';
 const GET_CAPTCHA_SUCCESSFUL = 'auth/GET-CAPTCHA-SUCCESSFUL';
-
 
 let initialState = {
     userId: null as number | null,
@@ -13,7 +14,6 @@ let initialState = {
     email: null as string | null,
     isAuth: false,
     captchaUrl: null as string | null
-
 };
 type initialStateType = typeof initialState
 
@@ -30,34 +30,23 @@ let authReducer = (state = initialState, action: actionsTypes): initialStateType
                 ...state,
                 ...action.payload,
             };
-
         default:
             return state;
-
     }
 }
-type actionsTypes = setAuthUserDataType | getCaptchaSuccessfulType
 
-type setAuthUserDataType = {
-    type: typeof SET_USER_DATA,
-    payload: {userId: number | null, login: string | null, email: string | null, isAuth: boolean}
+const actions = {
+    setAuthUserData : (userId: number | null, login: string | null, email: string | null, isAuth: boolean) => {
+        return {type: SET_USER_DATA, payload: {userId, login, email, isAuth}}
+    },
+    getCaptchaSuccessful: (captchaUrl: string) => ({type: GET_CAPTCHA_SUCCESSFUL, payload: {captchaUrl}})
 }
-type getCaptchaSuccessfulType = {
-    type: typeof GET_CAPTCHA_SUCCESSFUL,
-    payload: {captchaUrl: string}
-}
-
-export const setAuthUserData = (userId: number | null, login: string | null, email: string | null, isAuth: boolean): setAuthUserDataType => {
-    return {type: SET_USER_DATA, payload: {userId, login, email, isAuth}}
-};
-
-export const getCaptchaSuccessful = (captchaUrl: string): getCaptchaSuccessfulType => ({type: GET_CAPTCHA_SUCCESSFUL, payload: {captchaUrl}})
-
-
+// types:
+type actionsTypes = InferActionsType<typeof actions>
 
 
 //THUNKS:
-type thunksType = ThunkAction<Promise<void>, appStateType, unknown, actionsTypes>
+type thunksType = ThunkAction<Promise<void>, appStateType, unknown, actionsTypes | ReturnType<typeof stopSubmit>>
 
 export const getAuthUserDataThunkCreator = (): thunksType =>
     async (dispatch) => {
@@ -66,15 +55,16 @@ export const getAuthUserDataThunkCreator = (): thunksType =>
 
                 if (response.data.resultCode === resultCodeEnum.success) {
                     let {id, login, email} = response.data.data;
-                    dispatch(setAuthUserData(id, login, email, true))
+                    dispatch(actions.setAuthUserData(id, login, email, true))
                 }
     }
 
 export const getLoginThunkCreator = (email: string, password: string, rememberMe: boolean, captcha: string): thunksType =>
 
-    async (dispatch: any) => {
+    async (dispatch) => {
 
         let response = await authAPI.getLogin(email, password, rememberMe, captcha)
+        console.log(response);
 
         if (response.data.resultCode === resultCodeEnum.success) {
                     dispatch(getAuthUserDataThunkCreator())
@@ -86,7 +76,6 @@ export const getLoginThunkCreator = (email: string, password: string, rememberMe
 
                     dispatch(stopSubmit('login', {_error: message}))
                 }
-
     }
 
 
@@ -95,7 +84,7 @@ export const getLogoutThunkCreator = (): thunksType =>
         let response = await authAPI.getLoginout()
         // .then(response => {
                 if (response.data.resultCode === 0) {
-                    dispatch(setAuthUserData(null, null, null, false))
+                    dispatch(actions.setAuthUserData(null, null, null, false))
                 }
     }
 
@@ -107,7 +96,7 @@ export const getCaptchaUrlThunkCreator = (): thunksType =>
     let response = await securityAPI.getCaptchaUrl()
         let captchaUrl = response.data.url
 
-        dispatch(getCaptchaSuccessful(captchaUrl))
+        dispatch(actions.getCaptchaSuccessful(captchaUrl))
     }
 
 export default authReducer
