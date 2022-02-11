@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import './App.css';
 import Nav from "./Components/Nav/Nav";
 import ProfileContainer from "./Components/Profile/ProfieContainer";
@@ -14,13 +14,21 @@ import {compose} from "redux";
 import {initializeAppThunkCreator} from "./Components/Redux/app-reducer";
 import preloader from "./assets/images/spinning-circles.svg";
 import pic404 from "./assets/images/page-not-found.png";
+import { appStateType } from './Components/Redux/redux-store';
 
 const DialogsContainer = React.lazy(() => import('./Components/Dialogs/DialogsContainer'));
 
+type mapStatePropsType = {
+    initialized: boolean
+}
+type mapDispatchPropsType = {
+    initializeAppThunkCreator: () => void
+}
+type ownPropsType = {}
+type appType = mapStatePropsType & mapDispatchPropsType & ownPropsType
 
-
-class App extends React.Component {
-    catchAllUnhandledErrors(promise) {
+class App extends React.Component<appType> {
+    catchAllUnhandledErrors(promise: PromiseRejectionEvent) {
         alert('Something went wrong')
         console.error(promise)
     }
@@ -74,7 +82,7 @@ class App extends React.Component {
         );
     }
 }
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: appStateType) => {
     return {
         initialized: state.app.initialized
     }

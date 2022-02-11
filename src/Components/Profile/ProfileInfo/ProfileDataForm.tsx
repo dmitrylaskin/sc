@@ -1,11 +1,16 @@
 import React from "react";
 import {Input, Textarea} from "../../common/FormControls/FormControls";
-import {required} from "../../../utilites/validators/validators";
-import {Field, reduxForm} from "redux-form";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import classes from "./ProfileInfo.module.css"
+import { profileType } from "../../../Types/types";
+
+type ownPropsType = {
+    error: number
+    profile: profileType
+}
 
 
-let ProfileDataForm = (props: any) => {
+let ProfileDataForm: React.FC<InjectedFormProps<profileType, ownPropsType> & ownPropsType> = (props) => {
     return (<form onSubmit={props.handleSubmit}>
         {<div><button className={classes.button}>save</button></div>}
 
@@ -41,6 +46,6 @@ let ProfileDataForm = (props: any) => {
 
     </form>)
 }
-let ProfileDataFormReduxForm = reduxForm({form: 'edit-profile'}) (ProfileDataForm)
+let ProfileDataFormReduxForm = reduxForm<profileType, ownPropsType>({form: 'edit-profile'}) (ProfileDataForm)
 
 export default ProfileDataFormReduxForm

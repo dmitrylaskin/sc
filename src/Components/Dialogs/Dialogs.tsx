@@ -2,27 +2,27 @@ import React from "react";
 import classes from './Dialogs.module.css'
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
-import {Field, reduxForm} from "redux-form";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {Textarea} from "../common/FormControls/FormControls";
 import {maxLengthCreator, required} from "../../utilites/validators/validators";
 import {dialogsPropsType} from "../../Types/dialogs";
 
+type newMessageType = {
+    newMessageText: string
+}
 
-const Dialogs = (props: dialogsPropsType) => {
+const Dialogs: React.FC<dialogsPropsType> = (props) => {
     let DialogObj = props.MessagesPage.DialogsData.map((key) => <DialogItem key={key.id} name={key.name} id={key.id}/>);
     let MesObj = props.MessagesPage.MessagesData.map((key) => <Message key={key.id} text={key.text}/>);
 
-
     //набранный текст хранится в стейте redux-form
-    let addNewMessage = (formData: any) => {
+    let addNewMessage = (formData: newMessageType) => {
         props.addMessage(formData.newMessageText)
         props.reset('addMessage')
     }
 
     return (
-
         <div className={classes.dialogs}>
-
             <div className={classes.dialogsItems}>
                 {DialogObj}
             </div>
@@ -31,17 +31,16 @@ const Dialogs = (props: dialogsPropsType) => {
                 <div>{MesObj}</div>
 
                 <AddMessageReduxForm onSubmit={addNewMessage}/>
-
             </div>
-
         </div>
     );
 };
 
-
 let maxLength = maxLengthCreator(10)
 
-const AddMessageForm = (props: any) => {
+type ownPropsType = {}
+
+const AddMessageForm: React.FC<InjectedFormProps<newMessageType, ownPropsType> & ownPropsType> = (props) => {
     return (
             <div>
                 <form  className={classes.box} onSubmit={props.handleSubmit}>
@@ -55,8 +54,6 @@ const AddMessageForm = (props: any) => {
     )
 }
 
-
-
-const AddMessageReduxForm = reduxForm({form: 'addMessage'})(AddMessageForm)
+const AddMessageReduxForm = reduxForm<newMessageType, ownPropsType>({form: 'addMessage'})(AddMessageForm)
 
 export default Dialogs

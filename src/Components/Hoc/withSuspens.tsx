@@ -1,8 +1,7 @@
 import React from "react";
 
-//render = {withSuspens(Component)}
-export const withSuspens = (Component) => {
-    return (props) => {
+export function withSuspens<ComponentPropsType>(Component: React.ComponentType<ComponentPropsType>) {
+    return (props: ComponentPropsType) => {
         return (<React.Suspense fallback={<div>Loading...</div>}>
             <Component {...props}/>
         </React.Suspense>)

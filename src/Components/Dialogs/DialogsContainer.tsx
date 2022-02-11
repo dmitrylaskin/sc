@@ -5,6 +5,7 @@ import {withAuthRedirect} from "../Hoc/withAuthRedirect";
 import {compose} from "redux";
 import {reset} from 'redux-form';
 import {appStateType} from "../Redux/redux-store";
+import React from "react";
 
 const mapStateToProps = (state: appStateType) => {
     return {
@@ -13,7 +14,7 @@ const mapStateToProps = (state: appStateType) => {
     }
 };
 
-let Composed = compose(
+let Composed = compose<React.ComponentType>(
     connect(mapStateToProps, {addMessage: actions.addMessage, reset}),
     withAuthRedirect
 )(Dialogs);

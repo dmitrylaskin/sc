@@ -6,16 +6,34 @@ import {
     getUserStatusThunkCreator, savePhotoThunkCreator, saveProfileThunkCreator,
     updateUserStatusThunkCreator, actions
 } from "../Redux/profile-reducer";
-import {withRouter} from "react-router-dom";
+import {RouteComponentProps, withRouter} from "react-router-dom";
 import {withAuthRedirect} from "../Hoc/withAuthRedirect";
 import {compose} from "redux";
+import { appStateType } from "../Redux/redux-store";
+import { profileType } from "../../Types/types";
 
-class ProfileContainer extends React.Component {
+type mapStatePropsTypes = ReturnType<typeof mapStateToProps>
+type mapDispatchPropsType = {
+        setUserProfile: () => void
+        getUserProfileThunkCreator: (userId: number | null) => void
+        updateUserStatusThunkCreator: (status: string) => void
+        getUserStatusThunkCreator: (userId: number | null) => void
+        savePhotoThunkCreator: (arg: File) => void
+        saveProfileThunkCreator: (profile: profileType) => void
+}
+type propTypes = mapStatePropsTypes & mapDispatchPropsType & withRouterType
 
+// withRouter type:
+type PathParamsType = {
+    userId: string
+}
+type withRouterType = RouteComponentProps<PathParamsType>
+
+class ProfileContainer extends React.Component<propTypes> {
 
     refreshProfile() {
         //берем userId из url в строке ввода браузера
-        let userId = this.props.match.params.userId
+        let userId: number | null = +this.props.match.params.userId
         if (!userId) {
             userId = this.props.authorisedUserId
             if (!userId) {
@@ -33,7 +51,7 @@ class ProfileContainer extends React.Component {
         this.refreshProfile()
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps: propTypes, prevState: appStateType) {
 
         if (this.props.match.params.userId !== prevProps.match.params.userId) {
             this.refreshProfile()
@@ -49,8 +67,7 @@ class ProfileContainer extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
-
+const mapStateToProps = (state: appStateType) => {
     return {
         profile: state.ProfilePage.profile,
         status: state.ProfilePage.status,
@@ -59,7 +76,7 @@ const mapStateToProps = (state) => {
     }
 };
 
-let Composed = compose(
+let Composed = compose<React.ComponentType>(
     connect(mapStateToProps, {
         setUserProfile: actions.setUserProfile,
         getUserProfileThunkCreator,
