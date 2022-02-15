@@ -5,8 +5,7 @@ import classes from "./ProfileInfo.module.css"
 import { profileType } from "../../../Types/types";
 
 type ownPropsType = {
-    error: number
-    profile: profileType
+    profile: profileType | null
 }
 
 
@@ -36,7 +35,7 @@ let ProfileDataForm: React.FC<InjectedFormProps<profileType, ownPropsType> & own
         <div><b>My professional skills: </b>
             <Field component={Textarea} name={'lookingForAJobDescription'} placeholder={''} validate={[]}/>
         </div>
-
+{/* @ts-ignore */}
         <div><h4>Contacts:</h4> {Object.keys(props.profile.contacts).map(key => {
             return <div key={key} className={classes.contacs}>
                 <b>{key}:{<Field component={Textarea} name={'contacts.' + key} placeholder={key} validate={[]}/>} </b>

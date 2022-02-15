@@ -88,7 +88,7 @@ const mapStateToProps = (state: appStateType) => {
     }
 }
 
-let Composed = compose(
+let Composed = compose<React.ComponentType>(
     withRouter,
     connect(mapStateToProps, {initializeAppThunkCreator,})
 )(App);

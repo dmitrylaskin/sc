@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ComponentType } from "react";
 import {actions} from "../../Redux/profile-reducer"
 import MyPosts from "./MyPosts";
 import {connect} from "react-redux";
@@ -11,7 +11,7 @@ type mapStateType = {
     profile: profileType
 }
 type mapDispatchType = {
-    addPost: () => void
+    addPost: (newPostText: string | null) => void
     reset: () => void
 }
 type ownPropsType = {}
@@ -22,7 +22,8 @@ const mapStateToProps = (state: appStateType) => {
         profile: state.ProfilePage.profile
     }
 };
-//@ts-ignore
-let MyPostsContainer = connect<mapStateType, mapDispatchType, ownPropsType, appStateType>(mapStateToProps, {addPost: actions.addPost, reset})(MyPosts);
+// @ts-ignore
+let MyPostsContainer = connect<mapStateType, mapDispatchType, ownPropsType, appStateType>(mapStateToProps,
+{addPost: actions.addPost, reset})(MyPosts);
 
 export default MyPostsContainer

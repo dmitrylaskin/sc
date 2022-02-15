@@ -1,6 +1,7 @@
 import classes from '../Dialogs.module.css'
 import {NavLink} from "react-router-dom";
 import React from "react";
+//@ts-ignore
 import cn from 'classnames'
 
 type propsType = {

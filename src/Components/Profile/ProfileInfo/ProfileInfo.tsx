@@ -7,12 +7,11 @@ import ProfileDataForm from "./ProfileDataForm";
 import {contactsType, profileType} from "../../../Types/types";
 
 type propsType = {
-    error: number
     isOwner: boolean
-    profile: profileType
+    profile: profileType | null
     status: string
-    saveProfile: (arg: File) => Promise<boolean>
-    updateUserStatusThunkCreator: () => void
+    saveProfile: (arg: profileType) => void
+    updateUserStatusThunkCreator: (status: string) => void
 }
 
 const ProfileInfo: React.FC<propsType> = (props) => {
@@ -25,11 +24,13 @@ const ProfileInfo: React.FC<propsType> = (props) => {
     }
     const onMainPhotoSelected = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.files?.length) {
+            // @ts-ignore
             props.saveProfile(event.target.files[0])
         }
     }
 
     const onSubmit = (formData: any) => {
+        // @ts-ignore
         props.saveProfile(formData).then(() => {
                 setEditMode(false)
             })
@@ -63,7 +64,7 @@ let Contact: React.FC<contactType> = ({contactKey, contactValue}) => {
 type profileDataType = {
     goEditMode: () => void
     isOwner: boolean
-    profile: profileType
+    profile: profileType | null
 }
 
 let ProfileData: React.FC<profileDataType> = (props) => {
@@ -72,11 +73,16 @@ let ProfileData: React.FC<profileDataType> = (props) => {
 
 
         <h3>Profile info: </h3>
+        {/* @ts-ignore */}
         <div><b>About Me:</b> {props.profile.aboutMe}</div>
+        {/* @ts-ignore */}
         <div><b>Full name:</b> {props.profile.fullName}</div>
+        {/* @ts-ignore */}
         <div><b>Looking for a job: </b>{props.profile.lookingForAJob ? "yes" : "no"}</div>
+        {/* @ts-ignore */}
         <div><b>My professional skills: </b> {props.profile.lookingForAJobDescription}</div>
         <div><h4>Contacts:</h4> 
+        {/* @ts-ignore */}
         {Object.keys(props.profile.contacts).map(key => {
             //@ts-ignore
             return <Contact key={key} contactKey={key} contactValue={props.profile.contacts[key as keyof contactsType] }/>

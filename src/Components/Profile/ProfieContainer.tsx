@@ -60,7 +60,6 @@ class ProfileContainer extends React.Component<propTypes> {
     render() {
 
         return <Profile saveProfile={this.props.saveProfileThunkCreator}
-                        esavePhoto={this.props.savePhotoThunkCreator}
                         isOwner={!this.props.match.params.userId} {...this.props}
                         profile={this.props.profile}
                         updateUserStatusThunkCreator={this.props.updateUserStatusThunkCreator}/>

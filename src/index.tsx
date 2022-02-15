@@ -3,12 +3,12 @@ import "./index.css";
 import ReactDOM from "react-dom"
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import {BrowserRouter, HashRouter} from "react-router-dom";
+import {HashRouter} from "react-router-dom";
 import store from "./Components/Redux/redux-store";
 import './index.css';
 import {Provider} from "react-redux";
 
-//по умолчанию
+// default:
 // ReactDOM.render(
 //     <BrowserRouter>
 //         <Provider store={store}>
@@ -16,7 +16,7 @@ import {Provider} from "react-redux";
 //         </Provider>
 //     </BrowserRouter>, document.getElementById('root'));
 
-//для github pages
+// github page:
 ReactDOM.render(
     <HashRouter>
         <Provider store={store}>
@@ -24,6 +24,7 @@ ReactDOM.render(
         </Provider>
     </HashRouter>, document.getElementById('root'));
 
+// @ts-ignore
 window.store = store;
 
 
