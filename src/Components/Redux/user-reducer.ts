@@ -11,6 +11,7 @@ const SET_CURRENT_PAGE = 'users/SET-CURRENT-PAGE';
 const TOTAL_USERS_COUNT = 'users/TOTAL-USERS-COUNT';
 const TOGGLE_IS_FETCHING = 'users/TOGGLE-IS-FETCHING ';
 const TOGGLE_IS_FOLLOWING_PROGRESS = 'users/TOGGLE-IS-FOLLOWING-PROGRESS'
+const SET_FILTER = 'users/SET_FILTER'
 
 let initialState = {
     users: [] as Array<userType>,
@@ -19,8 +20,10 @@ let initialState = {
     currentPage: 1,
     isFetching: true,
     followingInProgress: [] as Array<number>,
+    filter: {term: '', friend: null as null | boolean}
 };
 type initialStateType = typeof initialState
+export type filterType = typeof initialState.filter
 
 let usersReducer = (state = initialState, action: actionsTypes): initialStateType => {
 
@@ -81,6 +84,11 @@ let usersReducer = (state = initialState, action: actionsTypes): initialStateTyp
                     : state.followingInProgress.filter(id => id != action.userId)
             }
         }
+        case SET_FILTER:
+            return {
+                ...state,
+                filter: action.payload
+            }
         default: return state;
     }
 };
@@ -93,7 +101,8 @@ export const actions = {
     setCurrentPage: (currentPage: number) => ({type: SET_CURRENT_PAGE, page: currentPage} as const),
     setTotalUsersCount: (totalCount: number) => ({type: TOTAL_USERS_COUNT, count: totalCount} as const),
     toggleIsFetching: (isFetching: boolean) => ({type: TOGGLE_IS_FETCHING, toggle: isFetching} as const),
-    toggleFollowingProgress: (statusProgress: boolean, userId: number) => ({type: TOGGLE_IS_FOLLOWING_PROGRESS, statusProgress, userId} as const)
+    toggleFollowingProgress: (statusProgress: boolean, userId: number) => ({type: TOGGLE_IS_FOLLOWING_PROGRESS, statusProgress, userId} as const),
+    setFilter: (filter: filterType) => ({type: SET_FILTER, payload: filter} as const)
  }
 
 // types:
@@ -102,16 +111,18 @@ export const actions = {
 
 
 //THUNKS:
-export const getUsersThunkCreator = (currentPage: number, pageSize: number):thunksType => {
+export const getUsersThunkCreator = (currentPage: number, pageSize: number, filter: filterType):thunksType => {
     //currentPage, pageSize замыкаются в thunk
     return async (dispatch) => {
         dispatch(actions.toggleIsFetching(true))
+        dispatch(actions.setCurrentPage(currentPage))
+        dispatch(actions.setFilter(filter))
 
-        let data = await usersAPI.getUsers(currentPage, pageSize)
+        let data = await usersAPI.getUsers(currentPage, pageSize, filter.term, filter.friend)
 
         dispatch(actions.toggleIsFetching(false))
-                dispatch(actions.setUsers(data.items))
-                dispatch(actions.setTotalUsersCount(data.totalCount))
+        dispatch(actions.setUsers(data.items))
+        dispatch(actions.setTotalUsersCount(data.totalCount))
     }
 }
 
